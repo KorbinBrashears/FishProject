@@ -32,7 +32,7 @@ df.columns = df.columns.str.strip()
 sites = sorted({col.split('.')[0] for col in df.columns if col.startswith("site_")})
 
 # ---- 1. Input site, variable, # of splits ----
-site_analyze = 20                   # integer site number input
+site_analyze = 1                   # integer site number input
 var_analyze = "maxT"                # variable name input
 n_splits = 6                        # number of time windows input
 
@@ -112,4 +112,4 @@ outname = f"site{site_analyze}_{var_analyze}_metricsChange_fig.png"
 outfile = os.path.join(fig_dir, outname)
 
 plt.savefig(outfile)
-plt.show()
+plt.close()

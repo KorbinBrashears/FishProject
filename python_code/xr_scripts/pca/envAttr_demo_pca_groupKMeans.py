@@ -270,4 +270,4 @@ plt.axis('off')
 # plt.text(0,.5, msg_plot_c, fontsize=8)
 
 plt.savefig(figName_c)
-plt.show()
+plt.close()

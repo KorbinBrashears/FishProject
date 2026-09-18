@@ -9,12 +9,12 @@
 #               (5)
 #               (6) ..._<genera>_fig1: visualizations of pipelines
 #               (7) ..._<genera>_fig2: diagnotics print (for minimal console clutter)
+#               (8) DO NOT RUN FULLY AS TO CLUTTER THE FIGURES FOLDER 18SEP2026
 # date			01/19/2025
 # programmer    Xavier Ramirez
 
 import datetime
 import os
-import win32api
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
@@ -32,16 +32,19 @@ plt.rcParams.update({'font.size': 8})
 # ============== COMMON INITIALIZATION =====================
 date_o = datetime.datetime.today()
 date_c = date_o.strftime('%m/%d/%Y')
-programname_c = os.path.basename(__file__)
-programName_c = win32api.GetLongPathName(win32api.GetShortPathName(programname_c))
+
+programName_c = os.path.dirname(os.path.abspath(__file__))
+script_name = os.path.splitext(os.path.basename(__file__))[0]
 
 ix = str.find(programName_c, '.')
 
-fileName_c = 'seth_environmentalGenusCountData_nov2024.csv'
-programMsg_c = programName_c + ' (' + date_c + ')'
+fileName_c = 'data/seth_gov_envData10dtsMetrics_genusCount2026.csv'
+programMsg_c = script_name + ' (' + date_c + ')'
 authorName_c = 'Xavier Ramirez'
 
-figName_c = programName_c[:ix] + '_fig.png'
+fig_dir = os.path.abspath(os.path.join(programName_c, "..", "..", "..", "figures")) #NEW
+os.makedirs(fig_dir, exist_ok=True) #NEW
+figName_c = os.path.join(fig_dir, f"{script_name} + _fig.png") #NEW
 
 # ========== Load and preprocess data ==============
 df = pd.read_csv(fileName_c)
@@ -241,7 +244,7 @@ for target_genus in genus_columns:
     
     # ======================== PLOT RESULTS ======================
     # ----------- FIGURE 1: VISUAL DASHBOARD (3×2) ---------------
-    fig1_name = f"{programName_c[:ix]}_{target_genus}_fig1.png"
+    fig1_name = os.path.join(fig_dir, f"{script_name}_{target_genus}_fig1.png")
     plt.figure(num=1, figsize=(16, 12), dpi=200)
     
     # --- 321: vary UMAP (Top 10 Predictors Only) ---
@@ -379,10 +382,10 @@ for target_genus in genus_columns:
     
     plt.subplots_adjust(hspace=0.70, wspace=0.38)
     plt.savefig(fig1_name, bbox_inches='tight')
-    plt.show()
+    plt.close()
     
     # ---------------- FIGURE 2: DIAGNOSTIC TEXT ----------------
-    fig2_name = f"{programName_c[:ix]}_{target_genus}_fig2.png"
+    fig2_name = os.path.join(fig_dir, f"{script_name}_{target_genus}_fig2.png")
     plt.figure(num=2, figsize=(18, 8), dpi=200)
     
     # Build text blocks
@@ -447,4 +450,4 @@ for target_genus in genus_columns:
     
     plt.subplots_adjust(wspace=0.30)
     plt.savefig(fig2_name, bbox_inches='tight')
-    plt.show()
+    plt.close()

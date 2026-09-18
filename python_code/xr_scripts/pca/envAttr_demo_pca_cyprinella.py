@@ -12,7 +12,6 @@
 
 import datetime
 import os
-import win32api
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
@@ -24,16 +23,16 @@ from statsmodels.formula.api import ols
 # ============== COMMON INITIALIZATION =====================
 date_o = datetime.datetime.today()
 date_c = date_o.strftime('%m/%d/%Y')
-programname_c = os.path.basename(__file__)
-programName_c = win32api.GetLongPathName(win32api.GetShortPathName(programname_c))
+programName_c = os.path.dirname(os.path.abspath(__file__))
+script_name = os.path.splitext(os.path.basename(__file__))[0]
 
-ix = str.find(programName_c, '.')
-
-fileName_c = 'seth_environmentalGenusCountData_nov2024.csv'
-programMsg_c = programName_c + ' (' + date_c + ')'
+fileName_c = 'data/seth_gov_envData10dtsMetrics_genusCount2026.csv'
+programMsg_c = script_name + ' (' + date_c + ')'
 authorName_c = 'Xavier Ramirez'
 
-figName_c = programName_c[:ix] + '_fig.png'
+fig_dir = os.path.abspath(os.path.join(programName_c, "..", "..", "..", "figures")) #NEW
+os.makedirs(fig_dir, exist_ok=True) #NEW
+figName_c = os.path.join(fig_dir, f"{script_name}_fig.png") #NEW
 
 # ============== 0. Load and preprocess data ===============
 df = pd.read_csv(fileName_c)                # load dataset
@@ -199,4 +198,4 @@ plt.text(0, .5,
     f"PC1: F(1,44) = {F_pc1:.2f}, p = {p_pc1:.4f}{stars_pc1}\n"
     f"PC2: F(1,44) = {F_pc2:.2f}, p = {p_pc2:.4f}{stars_pc2}", fontsize=9)
 plt.savefig(figName_c)
-plt.show()
+plt.close()

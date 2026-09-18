@@ -1,4 +1,4 @@
-# program		 demo_regression_envData10dtsMetrics.py
+# program		demo_regression_envData10dtsMetrics.py
 # purpose	    Demonstrate linear & quadratic regression on Boston House data
 # usage         script
 # notes         (1) Can select nX = 1 ['lstat'], 2 ['lstat','rm'], or all variables to predict 'mdev'
@@ -27,7 +27,7 @@ fileName_c = 'data/seth_gov_envData10dtsMetrics_genusCount2026.csv'
 programMsg_c = script_name + ' (' + date_c + ')'
 authorName_c = 'Xavier Ramirez'
 
-fig_dir = os.path.abspath(os.path.join(programName_c, "..", "..", "figures")) #NEW
+fig_dir = os.path.abspath(os.path.join(programName_c, "..", "..", "..", "figures")) #NEW
 os.makedirs(fig_dir, exist_ok=True) #NEW
 figName_c = os.path.join(fig_dir, f"{script_name}_fig.png") #NEW
 
